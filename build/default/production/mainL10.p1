@@ -12,24 +12,20 @@ Version 4.0 HI-TECH Software Intermediate Code
 "554
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 554: extern volatile PIR1bits_t PIR1bits __attribute__((address(0x00C)));
 [v _PIR1bits `VS18 ~T0 @X0 0 e@12 ]
-"229
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 229: extern volatile unsigned char PORTB __attribute__((address(0x006)));
-[v _PORTB `Vuc ~T0 @X0 0 e@6 ]
 "1141
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1141: extern volatile unsigned char RCREG __attribute__((address(0x01A)));
 [v _RCREG `Vuc ~T0 @X0 0 e@26 ]
+"229
+[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 229: extern volatile unsigned char PORTB __attribute__((address(0x006)));
+[v _PORTB `Vuc ~T0 @X0 0 e@6 ]
 [p mainexit ]
 "44 mainL10.c
 [; ;mainL10.c: 44: void setup(void);
 [v _setup `(v ~T0 @X0 0 ef ]
-[v F36 `(v ~T0 @X0 1 tf1`ul ]
-"12 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\builtins.h
-[v __delay `JF36 ~T0 @X0 0 e ]
-[p i __delay ]
-"1134 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1134: extern volatile unsigned char TXREG __attribute__((address(0x019)));
-[v _TXREG `Vuc ~T0 @X0 0 e@25 ]
-"3388
+"45
+[; ;mainL10.c: 45: void imp_cadena(uint8_t cursor);
+[v _imp_cadena `(v ~T0 @X0 0 ef1`uc ]
+"3388 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 3388: extern volatile unsigned char ANSEL __attribute__((address(0x188)));
 [v _ANSEL `Vuc ~T0 @X0 0 e@392 ]
 "3450
@@ -138,6 +134,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "1719
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1719: extern volatile PIE1bits_t PIE1bits __attribute__((address(0x08C)));
 [v _PIE1bits `VS62 ~T0 @X0 0 e@140 ]
+"1134
+[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1134: extern volatile unsigned char TXREG __attribute__((address(0x019)));
+[v _TXREG `Vuc ~T0 @X0 0 e@25 ]
 "13 mainL10.c
 [p x FOSC  =  INTRC_NOCLKOUT ]
 "14
@@ -397,15 +396,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 3547: __asm("EECON2 equ 018Dh");
 [; <" EECON2 equ 018Dh ;# ">
 "39 mainL10.c
-[; ;mainL10.c: 39: char mensaje[9] = {'D','a','t','o',':',' ',' ', 0x0D, 0x0A};
-[v _mensaje `uc ~T0 @X0 -> 9 `i e ]
+[; ;mainL10.c: 39: char mensaje[7] = {' ',' ',' ',' ',' ', 0x0D, 0x0A};
+[v _mensaje `uc ~T0 @X0 -> 7 `i e ]
 [i _mensaje
 :U ..
--> -> 68 `ui `uc
--> -> 97 `ui `uc
--> -> 116 `ui `uc
--> -> 111 `ui `uc
--> -> 58 `ui `uc
+-> -> 32 `ui `uc
+-> -> 32 `ui `uc
+-> -> 32 `ui `uc
 -> -> 32 `ui `uc
 -> -> 32 `ui `uc
 -> -> 13 `i `uc
@@ -419,73 +416,93 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 ]
 "41
-[; ;mainL10.c: 41: uint8_t old_valor = 0;
+[; ;mainL10.c: 41: uint8_t old_valor = 0, caracter_cont = 0;
 [v _old_valor `uc ~T0 @X0 1 e ]
 [i _old_valor
 -> -> 0 `i `uc
 ]
+[v _caracter_cont `uc ~T0 @X0 1 e ]
+[i _caracter_cont
+-> -> 0 `i `uc
+]
 [v $root$_isr `(v ~T0 @X0 0 e ]
-"47
-[; ;mainL10.c: 47: void __attribute__((picinterrupt(("")))) isr (void){
+"48
+[; ;mainL10.c: 48: void __attribute__((picinterrupt(("")))) isr (void){
 [v _isr `(v ~T1 @X0 1 ef ]
 {
 [e :U _isr ]
 [f ]
-"48
-[; ;mainL10.c: 48:     if(PIR1bits.RCIF){
+"49
+[; ;mainL10.c: 49:     if(PIR1bits.RCIF){
 [e $ ! != -> . . _PIR1bits 0 5 `i -> 0 `i 139  ]
 {
-"49
-[; ;mainL10.c: 49:         PORTB = RCREG;
-[e = _PORTB _RCREG ]
 "50
-[; ;mainL10.c: 50:     }
+[; ;mainL10.c: 50:         mensaje[caracter_cont] = RCREG;
+[e = *U + &U _mensaje * -> _caracter_cont `ux -> -> # *U &U _mensaje `ui `ux -> _RCREG `uc ]
+"51
+[; ;mainL10.c: 51:         PORTB = mensaje[caracter_cont];
+[e = _PORTB -> *U + &U _mensaje * -> _caracter_cont `ux -> -> # *U &U _mensaje `ui `ux `uc ]
+"52
+[; ;mainL10.c: 52:         caracter_cont++;
+[e ++ _caracter_cont -> -> 1 `i `uc ]
+"53
+[; ;mainL10.c: 53:         if (caracter_cont > 4)
+[e $ ! > -> _caracter_cont `i -> 4 `i 140  ]
+"54
+[; ;mainL10.c: 54:             caracter_cont = 0;
+[e = _caracter_cont -> -> 0 `i `uc ]
+[e :U 140 ]
+"55
+[; ;mainL10.c: 55:     }
 }
 [e :U 139 ]
-"51
-[; ;mainL10.c: 51: }
+"56
+[; ;mainL10.c: 56: }
 [e :UE 138 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"54
-[; ;mainL10.c: 54: void main(void){
+"59
+[; ;mainL10.c: 59: void main(void){
 [v _main `(v ~T0 @X0 1 ef ]
 {
 [e :U _main ]
 [f ]
-"55
-[; ;mainL10.c: 55:     setup();
-[e ( _setup ..  ]
-"56
-[; ;mainL10.c: 56:     while(1){
-[e :U 142 ]
-{
-"57
-[; ;mainL10.c: 57:         _delay((unsigned long)((500)*(1000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
-"58
-[; ;mainL10.c: 58:         if(PIR1bits.TXIF){
-[e $ ! != -> . . _PIR1bits 0 4 `i -> 0 `i 144  ]
-{
-"59
-[; ;mainL10.c: 59:             TXREG = 0x4A;
-[e = _TXREG -> -> 74 `i `uc ]
 "60
-[; ;mainL10.c: 60:         }
+[; ;mainL10.c: 60:     setup();
+[e ( _setup ..  ]
+"61
+[; ;mainL10.c: 61:     while(1){
+[e :U 143 ]
+{
+"66
+[; ;mainL10.c: 66:         indice = 0;
+[e = _indice -> -> 0 `i `uc ]
+"67
+[; ;mainL10.c: 67:         if (old_valor != mensaje[4]){
+[e $ ! != -> _old_valor `i -> *U + &U _mensaje * -> -> -> 4 `i `ui `ux -> -> # *U &U _mensaje `ui `ux `i 145  ]
+{
+"69
+[; ;mainL10.c: 69:             imp_cadena(indice);
+[e ( _imp_cadena (1 _indice ]
+"70
+[; ;mainL10.c: 70:             old_valor = mensaje[4];
+[e = _old_valor -> *U + &U _mensaje * -> -> -> 4 `i `ui `ux -> -> # *U &U _mensaje `ui `ux `uc ]
+"72
+[; ;mainL10.c: 72:         }
 }
-[e :U 144 ]
+[e :U 145 ]
 "73
 [; ;mainL10.c: 73:     }
 }
-[e :U 141 ]
-[e $U 142  ]
-[e :U 143 ]
+[e :U 142 ]
+[e $U 143  ]
+[e :U 144 ]
 "74
 [; ;mainL10.c: 74:     return;
-[e $UE 140  ]
+[e $UE 141  ]
 "75
 [; ;mainL10.c: 75: }
-[e :UE 140 ]
+[e :UE 141 ]
 }
 "78
 [; ;mainL10.c: 78: void setup(void){
@@ -552,8 +569,46 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
 "108
 [; ;mainL10.c: 108:     return;
-[e $UE 145  ]
+[e $UE 146  ]
 "109
 [; ;mainL10.c: 109: }
-[e :UE 145 ]
+[e :UE 146 ]
+}
+"111
+[; ;mainL10.c: 111: void imp_cadena(uint8_t cursor){
+[v _imp_cadena `(v ~T0 @X0 1 ef1`uc ]
+{
+[e :U _imp_cadena ]
+[v _cursor `uc ~T0 @X0 1 r1 ]
+[f ]
+"112
+[; ;mainL10.c: 112:     while(cursor<7){
+[e $U 148  ]
+[e :U 149 ]
+{
+"113
+[; ;mainL10.c: 113:         if (PIR1bits.TXIF){
+[e $ ! != -> . . _PIR1bits 0 4 `i -> 0 `i 151  ]
+{
+"114
+[; ;mainL10.c: 114:             TXREG = mensaje[cursor];
+[e = _TXREG -> *U + &U _mensaje * -> _cursor `ux -> -> # *U &U _mensaje `ui `ux `uc ]
+"115
+[; ;mainL10.c: 115:             cursor++;
+[e ++ _cursor -> -> 1 `i `uc ]
+"116
+[; ;mainL10.c: 116:         }
+}
+[e :U 151 ]
+"117
+[; ;mainL10.c: 117:     }
+}
+[e :U 148 ]
+"112
+[; ;mainL10.c: 112:     while(cursor<7){
+[e $ < -> _cursor `i -> 7 `i 149  ]
+[e :U 150 ]
+"118
+[; ;mainL10.c: 118: }
+[e :UE 147 ]
 }

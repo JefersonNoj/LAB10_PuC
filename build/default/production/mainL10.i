@@ -2655,17 +2655,22 @@ extern __bank0 __bit __timeout;
 
 
 
-char mensaje[9] = {'D','a','t','o',':',' ',' ', 0x0D, 0x0A};
+char mensaje[7] = {' ',' ',' ',' ',' ', 0x0D, 0x0A};
 uint8_t indice = 0;
-uint8_t old_valor = 0;
+uint8_t old_valor = 0, caracter_cont = 0;
 
 
 void setup(void);
+void imp_cadena(uint8_t cursor);
 
 
 void __attribute__((picinterrupt(("")))) isr (void){
     if(PIR1bits.RCIF){
-        PORTB = RCREG;
+        mensaje[caracter_cont] = RCREG;
+        PORTB = mensaje[caracter_cont];
+        caracter_cont++;
+        if (caracter_cont > 4)
+            caracter_cont = 0;
     }
 }
 
@@ -2673,11 +2678,17 @@ void __attribute__((picinterrupt(("")))) isr (void){
 void main(void){
     setup();
     while(1){
-        _delay((unsigned long)((500)*(1000000/4000.0)));
-        if(PIR1bits.TXIF){
-            TXREG = 0x4A;
+
+
+
+
+        indice = 0;
+        if (old_valor != mensaje[4]){
+
+            imp_cadena(indice);
+            old_valor = mensaje[4];
+
         }
-# 73 "mainL10.c"
     }
     return;
 }
@@ -2714,4 +2725,13 @@ void setup(void){
     PIE1bits.RCIE = 1;
 
     return;
+}
+
+void imp_cadena(uint8_t cursor){
+    while(cursor<7){
+        if (PIR1bits.TXIF){
+            TXREG = mensaje[cursor];
+            cursor++;
+        }
+    }
 }

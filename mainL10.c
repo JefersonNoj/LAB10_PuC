@@ -33,20 +33,25 @@
 
 // CONSTANTES ------------------------------------------------------------------
 #define _XTAL_FREQ 1000000
-#define largo_msg 9
+#define largo_msg 7
 
 // VARIABLES -------------------------------------------------------------------
-char mensaje[largo_msg] = {'D','a','t','o',':',' ',' ', 0x0D, 0x0A};
+char mensaje[largo_msg] = {' ',' ',' ',' ',' ', 0x0D, 0x0A};
 uint8_t indice = 0;     
-uint8_t old_valor = 0;
+uint8_t old_valor = 0, caracter_cont = 0;
 
 // PROTOTIPO DE FUNCIONES ------------------------------------------------------
 void setup(void);
+void imp_cadena(uint8_t cursor);
 
 // INTERRUPCIONES --------------------------------------------------------------
 void __interrupt() isr (void){
     if(PIR1bits.RCIF){              //Verificar si hay datos recibidos
-        PORTB = RCREG;
+        mensaje[caracter_cont] = RCREG;         //Guardar el valor recibido en el arreglo del mensaje
+        PORTB = mensaje[caracter_cont];         //Mostrar el valor recibido en el PORTB
+        caracter_cont++;                        // Aumentar contador de caracteres del arreglo
+        if (caracter_cont > 4)                  
+            caracter_cont = 0;                  // Reiniciar si es mayor a 4
     }
 }
 
@@ -54,22 +59,17 @@ void __interrupt() isr (void){
 void main(void){
     setup();
     while(1){
-        __delay_ms(500);
+        /*__delay_ms(500);
         if(PIR1bits.TXIF){
             TXREG = 0x4A;
-        }
-        /*indice = 0;                             // Reiniciamos indice para enviar todo el mensaje
-        if (old_valor != mensaje[6]){           // Verificamos que el nuevo valor recibido en el serial 
-                                                //   sea diferente al anterior, para imprimir solo 
-            while(indice<largo_msg){              // Loop para imprimir el mensaje completo
-                if (PIR1bits.TXIF){             // Esperamos a que est  libre el ?TXREG para poder enviar por el serial
-                    TXREG = mensaje[indice];    // Cargamos caracter a enviar
-                    indice++;                   // Incrementamos indice para enviarsigiente caracter
-                }
-            }
-            old_valor = mensaje[6];             // Guardamos valor recibido para comparar en siguiente iteraci n?
-                                                //   si el nuevo valor recibido es diferente al anterior. 
         }*/
+        indice = 0;                             // Reiniciar indice para enviar todo el mensaje
+        if (old_valor != mensaje[4]){           // Verificar que el nuevo valor recibido en el serial 
+                                                //      sea diferente al anterior, para imprimir solo 
+            imp_cadena(indice);
+            old_valor = mensaje[4];             // Guardar valor recibido para comparar en siguiente iteración
+                                        //      si el nuevo valor recibido es diferente al anterior.    
+        }
     }
     return;
 }
@@ -108,6 +108,11 @@ void setup(void){
     return;
 }
 
-
-
-
+void imp_cadena(uint8_t cursor){
+    while(cursor<largo_msg){            // Loop para imprimir el mensaje completo
+        if (PIR1bits.TXIF){             // Esperar a que esté libre el TXREG para poder enviar por el serial
+            TXREG = mensaje[cursor];    // Cargar el caracter a enviar
+            cursor++;                   // Incrementar indice para enviar sigiente caracter
+        }
+    } 
+}
