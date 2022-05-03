@@ -45,10 +45,9 @@ void setup(void);
 
 // INTERRUPCIONES --------------------------------------------------------------
 void __interrupt() isr (void){
-    /*if(PIR1bits.RCIF){              //Verificar si hay datos recibidos
-        mensaje[6] = RCREG;         //Guardar el valor recibido en el arreglo del mensaje
-        PORTB = mensaje[6];         //Mostrar el valor recibido en el PORTB
-    }*/
+    if(PIR1bits.RCIF){              //Verificar si hay datos recibidos
+        PORTB = RCREG;
+    }
 }
 
 // CICLO PRINCIPAL -------------------------------------------------------------
@@ -96,15 +95,15 @@ void setup(void){
     SPBRGH = 0;                 // Baud rate ~9600, error -> 0.16%
     
     RCSTAbits.SPEN = 1;         // Habilitar comunicación
-    RCSTAbits.RX9 = 0;
+    RCSTAbits.RX9 = 0;          // Utilizar solo 8 bits para recepción 
     TXSTAbits.TXEN = 1;         // Habilitar transmisor
-    /*RCSTAbits.CREN = 1;         // Habilitar receptor
-    TXSTAbits.TX9 = 0;          // Utilizar solo 8 bits
+    RCSTAbits.CREN = 1;         // Habilitar receptor
+    TXSTAbits.TX9 = 0;          // Utilizar solo 8 bits para transmición 
     
     // Configuración de interrupciones
     INTCONbits.GIE = 1;         // Habilitar interrupciones globales
     INTCONbits.PEIE = 1;        // Habilitar interrupciones de perifericos
-    PIE1bits.RCIE = 1;          // Habilitar Interrupciones de recepción*/
+    PIE1bits.RCIE = 1;          // Habilitar Interrupciones de recepción
     
     return;
 }

@@ -2664,10 +2664,9 @@ void setup(void);
 
 
 void __attribute__((picinterrupt(("")))) isr (void){
-
-
-
-
+    if(PIR1bits.RCIF){
+        PORTB = RCREG;
+    }
 }
 
 
@@ -2678,7 +2677,7 @@ void main(void){
         if(PIR1bits.TXIF){
             TXREG = 0x4A;
         }
-# 74 "mainL10.c"
+# 73 "mainL10.c"
     }
     return;
 }
@@ -2706,6 +2705,13 @@ void setup(void){
     RCSTAbits.SPEN = 1;
     RCSTAbits.RX9 = 0;
     TXSTAbits.TXEN = 1;
-# 109 "mainL10.c"
+    RCSTAbits.CREN = 1;
+    TXSTAbits.TX9 = 0;
+
+
+    INTCONbits.GIE = 1;
+    INTCONbits.PEIE = 1;
+    PIE1bits.RCIE = 1;
+
     return;
 }
