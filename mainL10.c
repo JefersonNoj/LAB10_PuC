@@ -37,16 +37,18 @@
 
 // VARIABLES -------------------------------------------------------------------
 char mensaje[largo_msg] = {' ',' ',' ',' ',' ', 0x0D, 0x0A};
-uint8_t indice = 0;     
+char string[] = "Hola mundo \n";
+uint8_t indice = 0, bandera = 0;     
 uint8_t old_valor = 0, caracter_cont = 0;
 
 // PROTOTIPO DE FUNCIONES ------------------------------------------------------
 void setup(void);
-void imp_cadena(uint8_t cursor);
+void imp_cadena(char arreglo[]);
 
 // INTERRUPCIONES --------------------------------------------------------------
 void __interrupt() isr (void){
     if(PIR1bits.RCIF){              //Verificar si hay datos recibidos
+        bandera = 0;
         mensaje[caracter_cont] = RCREG;         //Guardar el valor recibido en el arreglo del mensaje
         PORTB = mensaje[caracter_cont];         //Mostrar el valor recibido en el PORTB
         caracter_cont++;                        // Aumentar contador de caracteres del arreglo
@@ -59,17 +61,8 @@ void __interrupt() isr (void){
 void main(void){
     setup();
     while(1){
-        /*__delay_ms(500);
-        if(PIR1bits.TXIF){
-            TXREG = 0x4A;
-        }*/
-        indice = 0;                             // Reiniciar indice para enviar todo el mensaje
-        if (old_valor != mensaje[4]){           // Verificar que el nuevo valor recibido en el serial 
-                                                //      sea diferente al anterior, para imprimir solo 
-            imp_cadena(indice);
-            old_valor = mensaje[4];             // Guardar valor recibido para comparar en siguiente iteración
-                                        //      si el nuevo valor recibido es diferente al anterior.    
-        }
+        __delay_ms(1000);
+        imp_cadena(string);      // Ejecutar subrutina que muestra el mensaje
     }
     return;
 }
@@ -108,11 +101,13 @@ void setup(void){
     return;
 }
 
-void imp_cadena(uint8_t cursor){
-    while(cursor<largo_msg){            // Loop para imprimir el mensaje completo
+void imp_cadena(char arreglo[]){
+    int cursor = 0;
+    while(arreglo[cursor]!=0){            // Loop para imprimir el mensaje completo
         if (PIR1bits.TXIF){             // Esperar a que esté libre el TXREG para poder enviar por el serial
-            TXREG = mensaje[cursor];    // Cargar el caracter a enviar
+            TXREG = arreglo[cursor];    // Cargar el caracter a enviar
             cursor++;                   // Incrementar indice para enviar sigiente caracter
         }
     } 
+    return;
 }

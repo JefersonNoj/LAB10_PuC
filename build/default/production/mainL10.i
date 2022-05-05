@@ -2656,16 +2656,18 @@ extern __bank0 __bit __timeout;
 
 
 char mensaje[7] = {' ',' ',' ',' ',' ', 0x0D, 0x0A};
-uint8_t indice = 0;
+char string[] = "Hola mundo \n";
+uint8_t indice = 0, bandera = 0;
 uint8_t old_valor = 0, caracter_cont = 0;
 
 
 void setup(void);
-void imp_cadena(uint8_t cursor);
+void imp_cadena(char arreglo[]);
 
 
 void __attribute__((picinterrupt(("")))) isr (void){
     if(PIR1bits.RCIF){
+        bandera = 0;
         mensaje[caracter_cont] = RCREG;
         PORTB = mensaje[caracter_cont];
         caracter_cont++;
@@ -2678,17 +2680,8 @@ void __attribute__((picinterrupt(("")))) isr (void){
 void main(void){
     setup();
     while(1){
-
-
-
-
-        indice = 0;
-        if (old_valor != mensaje[4]){
-
-            imp_cadena(indice);
-            old_valor = mensaje[4];
-
-        }
+        _delay((unsigned long)((1000)*(1000000/4000.0)));
+        imp_cadena(string);
     }
     return;
 }
@@ -2727,11 +2720,13 @@ void setup(void){
     return;
 }
 
-void imp_cadena(uint8_t cursor){
-    while(cursor<7){
+void imp_cadena(char arreglo[]){
+    int cursor = 0;
+    while(arreglo[cursor]!=0){
         if (PIR1bits.TXIF){
-            TXREG = mensaje[cursor];
+            TXREG = arreglo[cursor];
             cursor++;
         }
     }
+    return;
 }

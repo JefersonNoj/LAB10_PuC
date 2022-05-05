@@ -19,12 +19,16 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 229: extern volatile unsigned char PORTB __attribute__((address(0x006)));
 [v _PORTB `Vuc ~T0 @X0 0 e@6 ]
 [p mainexit ]
-"44 mainL10.c
-[; ;mainL10.c: 44: void setup(void);
+"45 mainL10.c
+[; ;mainL10.c: 45: void setup(void);
 [v _setup `(v ~T0 @X0 0 ef ]
-"45
-[; ;mainL10.c: 45: void imp_cadena(uint8_t cursor);
-[v _imp_cadena `(v ~T0 @X0 0 ef1`uc ]
+[v F36 `(v ~T0 @X0 1 tf1`ul ]
+"12 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\builtins.h
+[v __delay `JF36 ~T0 @X0 0 e ]
+[p i __delay ]
+"46 mainL10.c
+[; ;mainL10.c: 46: void imp_cadena(char arreglo[]);
+[v _imp_cadena `(v ~T0 @X0 0 ef1`*uc ]
 "3388 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 3388: extern volatile unsigned char ANSEL __attribute__((address(0x188)));
 [v _ANSEL `Vuc ~T0 @X0 0 e@392 ]
@@ -410,13 +414,37 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ]
 "40
-[; ;mainL10.c: 40: uint8_t indice = 0;
+[; ;mainL10.c: 40: char string[] = "Hola mundo \n";
+[v _string `uc ~T0 @X0 -> 13 `i e ]
+[i _string
+:U ..
+-> 72 `c
+-> 111 `c
+-> 108 `c
+-> 97 `c
+-> 32 `c
+-> 109 `c
+-> 117 `c
+-> 110 `c
+-> 100 `c
+-> 111 `c
+-> 32 `c
+-> 10 `c
+-> 0 `c
+..
+]
+"41
+[; ;mainL10.c: 41: uint8_t indice = 0, bandera = 0;
 [v _indice `uc ~T0 @X0 1 e ]
 [i _indice
 -> -> 0 `i `uc
 ]
-"41
-[; ;mainL10.c: 41: uint8_t old_valor = 0, caracter_cont = 0;
+[v _bandera `uc ~T0 @X0 1 e ]
+[i _bandera
+-> -> 0 `i `uc
+]
+"42
+[; ;mainL10.c: 42: uint8_t old_valor = 0, caracter_cont = 0;
 [v _old_valor `uc ~T0 @X0 1 e ]
 [i _old_valor
 -> -> 0 `i `uc
@@ -426,189 +454,188 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 ]
 [v $root$_isr `(v ~T0 @X0 0 e ]
-"48
-[; ;mainL10.c: 48: void __attribute__((picinterrupt(("")))) isr (void){
+"49
+[; ;mainL10.c: 49: void __attribute__((picinterrupt(("")))) isr (void){
 [v _isr `(v ~T1 @X0 1 ef ]
 {
 [e :U _isr ]
 [f ]
-"49
-[; ;mainL10.c: 49:     if(PIR1bits.RCIF){
+"50
+[; ;mainL10.c: 50:     if(PIR1bits.RCIF){
 [e $ ! != -> . . _PIR1bits 0 5 `i -> 0 `i 139  ]
 {
-"50
-[; ;mainL10.c: 50:         mensaje[caracter_cont] = RCREG;
-[e = *U + &U _mensaje * -> _caracter_cont `ux -> -> # *U &U _mensaje `ui `ux -> _RCREG `uc ]
 "51
-[; ;mainL10.c: 51:         PORTB = mensaje[caracter_cont];
-[e = _PORTB -> *U + &U _mensaje * -> _caracter_cont `ux -> -> # *U &U _mensaje `ui `ux `uc ]
+[; ;mainL10.c: 51:         bandera = 0;
+[e = _bandera -> -> 0 `i `uc ]
 "52
-[; ;mainL10.c: 52:         caracter_cont++;
-[e ++ _caracter_cont -> -> 1 `i `uc ]
+[; ;mainL10.c: 52:         mensaje[caracter_cont] = RCREG;
+[e = *U + &U _mensaje * -> _caracter_cont `ux -> -> # *U &U _mensaje `ui `ux -> _RCREG `uc ]
 "53
-[; ;mainL10.c: 53:         if (caracter_cont > 4)
-[e $ ! > -> _caracter_cont `i -> 4 `i 140  ]
+[; ;mainL10.c: 53:         PORTB = mensaje[caracter_cont];
+[e = _PORTB -> *U + &U _mensaje * -> _caracter_cont `ux -> -> # *U &U _mensaje `ui `ux `uc ]
 "54
-[; ;mainL10.c: 54:             caracter_cont = 0;
+[; ;mainL10.c: 54:         caracter_cont++;
+[e ++ _caracter_cont -> -> 1 `i `uc ]
+"55
+[; ;mainL10.c: 55:         if (caracter_cont > 4)
+[e $ ! > -> _caracter_cont `i -> 4 `i 140  ]
+"56
+[; ;mainL10.c: 56:             caracter_cont = 0;
 [e = _caracter_cont -> -> 0 `i `uc ]
 [e :U 140 ]
-"55
-[; ;mainL10.c: 55:     }
+"57
+[; ;mainL10.c: 57:     }
 }
 [e :U 139 ]
-"56
-[; ;mainL10.c: 56: }
+"58
+[; ;mainL10.c: 58: }
 [e :UE 138 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"59
-[; ;mainL10.c: 59: void main(void){
+"61
+[; ;mainL10.c: 61: void main(void){
 [v _main `(v ~T0 @X0 1 ef ]
 {
 [e :U _main ]
 [f ]
-"60
-[; ;mainL10.c: 60:     setup();
+"62
+[; ;mainL10.c: 62:     setup();
 [e ( _setup ..  ]
-"61
-[; ;mainL10.c: 61:     while(1){
+"63
+[; ;mainL10.c: 63:     while(1){
 [e :U 143 ]
 {
+"64
+[; ;mainL10.c: 64:         _delay((unsigned long)((1000)*(1000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 1000000 `l `d .4000.0 `ul ]
+"65
+[; ;mainL10.c: 65:         imp_cadena(string);
+[e ( _imp_cadena (1 &U _string ]
 "66
-[; ;mainL10.c: 66:         indice = 0;
-[e = _indice -> -> 0 `i `uc ]
-"67
-[; ;mainL10.c: 67:         if (old_valor != mensaje[4]){
-[e $ ! != -> _old_valor `i -> *U + &U _mensaje * -> -> -> 4 `i `ui `ux -> -> # *U &U _mensaje `ui `ux `i 145  ]
-{
-"69
-[; ;mainL10.c: 69:             imp_cadena(indice);
-[e ( _imp_cadena (1 _indice ]
-"70
-[; ;mainL10.c: 70:             old_valor = mensaje[4];
-[e = _old_valor -> *U + &U _mensaje * -> -> -> 4 `i `ui `ux -> -> # *U &U _mensaje `ui `ux `uc ]
-"72
-[; ;mainL10.c: 72:         }
-}
-[e :U 145 ]
-"73
-[; ;mainL10.c: 73:     }
+[; ;mainL10.c: 66:     }
 }
 [e :U 142 ]
 [e $U 143  ]
 [e :U 144 ]
-"74
-[; ;mainL10.c: 74:     return;
+"67
+[; ;mainL10.c: 67:     return;
 [e $UE 141  ]
-"75
-[; ;mainL10.c: 75: }
+"68
+[; ;mainL10.c: 68: }
 [e :UE 141 ]
 }
-"78
-[; ;mainL10.c: 78: void setup(void){
+"71
+[; ;mainL10.c: 71: void setup(void){
 [v _setup `(v ~T0 @X0 1 ef ]
 {
 [e :U _setup ]
 [f ]
-"79
-[; ;mainL10.c: 79:     ANSEL = 0;
+"72
+[; ;mainL10.c: 72:     ANSEL = 0;
 [e = _ANSEL -> -> 0 `i `uc ]
-"80
-[; ;mainL10.c: 80:     ANSELH = 0;
+"73
+[; ;mainL10.c: 73:     ANSELH = 0;
 [e = _ANSELH -> -> 0 `i `uc ]
-"82
-[; ;mainL10.c: 82:     TRISB = 0;
+"75
+[; ;mainL10.c: 75:     TRISB = 0;
 [e = _TRISB -> -> 0 `i `uc ]
-"83
-[; ;mainL10.c: 83:     PORTB = 0;
+"76
+[; ;mainL10.c: 76:     PORTB = 0;
 [e = _PORTB -> -> 0 `i `uc ]
-"85
-[; ;mainL10.c: 85:     OSCCONbits.IRCF = 0b100;
+"78
+[; ;mainL10.c: 78:     OSCCONbits.IRCF = 0b100;
 [e = . . _OSCCONbits 0 4 -> -> 4 `i `uc ]
-"86
-[; ;mainL10.c: 86:     OSCCONbits.SCS = 1;
+"79
+[; ;mainL10.c: 79:     OSCCONbits.SCS = 1;
 [e = . . _OSCCONbits 0 0 -> -> 1 `i `uc ]
-"90
-[; ;mainL10.c: 90:     TXSTAbits.SYNC = 0;
+"83
+[; ;mainL10.c: 83:     TXSTAbits.SYNC = 0;
 [e = . . _TXSTAbits 0 4 -> -> 0 `i `uc ]
-"91
-[; ;mainL10.c: 91:     TXSTAbits.BRGH = 1;
+"84
+[; ;mainL10.c: 84:     TXSTAbits.BRGH = 1;
 [e = . . _TXSTAbits 0 2 -> -> 1 `i `uc ]
-"92
-[; ;mainL10.c: 92:     BAUDCTLbits.BRG16 = 1;
+"85
+[; ;mainL10.c: 85:     BAUDCTLbits.BRG16 = 1;
 [e = . . _BAUDCTLbits 0 3 -> -> 1 `i `uc ]
-"94
-[; ;mainL10.c: 94:     SPBRG = 25;
+"87
+[; ;mainL10.c: 87:     SPBRG = 25;
 [e = _SPBRG -> -> 25 `i `uc ]
-"95
-[; ;mainL10.c: 95:     SPBRGH = 0;
+"88
+[; ;mainL10.c: 88:     SPBRGH = 0;
 [e = _SPBRGH -> -> 0 `i `uc ]
-"97
-[; ;mainL10.c: 97:     RCSTAbits.SPEN = 1;
+"90
+[; ;mainL10.c: 90:     RCSTAbits.SPEN = 1;
 [e = . . _RCSTAbits 0 7 -> -> 1 `i `uc ]
-"98
-[; ;mainL10.c: 98:     RCSTAbits.RX9 = 0;
+"91
+[; ;mainL10.c: 91:     RCSTAbits.RX9 = 0;
 [e = . . _RCSTAbits 0 6 -> -> 0 `i `uc ]
-"99
-[; ;mainL10.c: 99:     TXSTAbits.TXEN = 1;
+"92
+[; ;mainL10.c: 92:     TXSTAbits.TXEN = 1;
 [e = . . _TXSTAbits 0 5 -> -> 1 `i `uc ]
-"100
-[; ;mainL10.c: 100:     RCSTAbits.CREN = 1;
+"93
+[; ;mainL10.c: 93:     RCSTAbits.CREN = 1;
 [e = . . _RCSTAbits 0 4 -> -> 1 `i `uc ]
-"101
-[; ;mainL10.c: 101:     TXSTAbits.TX9 = 0;
+"94
+[; ;mainL10.c: 94:     TXSTAbits.TX9 = 0;
 [e = . . _TXSTAbits 0 6 -> -> 0 `i `uc ]
-"104
-[; ;mainL10.c: 104:     INTCONbits.GIE = 1;
+"97
+[; ;mainL10.c: 97:     INTCONbits.GIE = 1;
 [e = . . _INTCONbits 0 7 -> -> 1 `i `uc ]
-"105
-[; ;mainL10.c: 105:     INTCONbits.PEIE = 1;
+"98
+[; ;mainL10.c: 98:     INTCONbits.PEIE = 1;
 [e = . . _INTCONbits 0 6 -> -> 1 `i `uc ]
-"106
-[; ;mainL10.c: 106:     PIE1bits.RCIE = 1;
+"99
+[; ;mainL10.c: 99:     PIE1bits.RCIE = 1;
 [e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
-"108
-[; ;mainL10.c: 108:     return;
-[e $UE 146  ]
-"109
-[; ;mainL10.c: 109: }
-[e :UE 146 ]
+"101
+[; ;mainL10.c: 101:     return;
+[e $UE 145  ]
+"102
+[; ;mainL10.c: 102: }
+[e :UE 145 ]
 }
-"111
-[; ;mainL10.c: 111: void imp_cadena(uint8_t cursor){
-[v _imp_cadena `(v ~T0 @X0 1 ef1`uc ]
+"104
+[; ;mainL10.c: 104: void imp_cadena(char arreglo[]){
+[v _imp_cadena `(v ~T0 @X0 1 ef1`*uc ]
 {
 [e :U _imp_cadena ]
-[v _cursor `uc ~T0 @X0 1 r1 ]
+[v _arreglo `*uc ~T0 @X0 1 r1 ]
 [f ]
-"112
-[; ;mainL10.c: 112:     while(cursor<7){
-[e $U 148  ]
-[e :U 149 ]
-{
-"113
-[; ;mainL10.c: 113:         if (PIR1bits.TXIF){
-[e $ ! != -> . . _PIR1bits 0 4 `i -> 0 `i 151  ]
-{
-"114
-[; ;mainL10.c: 114:             TXREG = mensaje[cursor];
-[e = _TXREG -> *U + &U _mensaje * -> _cursor `ux -> -> # *U &U _mensaje `ui `ux `uc ]
-"115
-[; ;mainL10.c: 115:             cursor++;
-[e ++ _cursor -> -> 1 `i `uc ]
-"116
-[; ;mainL10.c: 116:         }
-}
-[e :U 151 ]
-"117
-[; ;mainL10.c: 117:     }
-}
+"105
+[; ;mainL10.c: 105:     int cursor = 0;
+[v _cursor `i ~T0 @X0 1 a ]
+[e = _cursor -> 0 `i ]
+"106
+[; ;mainL10.c: 106:     while(arreglo[cursor]!=0){
+[e $U 147  ]
 [e :U 148 ]
-"112
-[; ;mainL10.c: 112:     while(cursor<7){
-[e $ < -> _cursor `i -> 7 `i 149  ]
+{
+"107
+[; ;mainL10.c: 107:         if (PIR1bits.TXIF){
+[e $ ! != -> . . _PIR1bits 0 4 `i -> 0 `i 150  ]
+{
+"108
+[; ;mainL10.c: 108:             TXREG = arreglo[cursor];
+[e = _TXREG -> *U + _arreglo * -> _cursor `x -> -> # *U _arreglo `i `x `uc ]
+"109
+[; ;mainL10.c: 109:             cursor++;
+[e ++ _cursor -> 1 `i ]
+"110
+[; ;mainL10.c: 110:         }
+}
 [e :U 150 ]
-"118
-[; ;mainL10.c: 118: }
-[e :UE 147 ]
+"111
+[; ;mainL10.c: 111:     }
+}
+[e :U 147 ]
+"106
+[; ;mainL10.c: 106:     while(arreglo[cursor]!=0){
+[e $ != -> *U + _arreglo * -> _cursor `x -> -> # *U _arreglo `i `x `i -> 0 `i 148  ]
+[e :U 149 ]
+"112
+[; ;mainL10.c: 112:     return;
+[e $UE 146  ]
+"113
+[; ;mainL10.c: 113: }
+[e :UE 146 ]
 }
