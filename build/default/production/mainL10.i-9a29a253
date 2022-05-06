@@ -2655,10 +2655,11 @@ extern __bank0 __bit __timeout;
 
 
 
-char op1[] = "\r\n1. LEER POT \r\n";
+
+char op1[] = "1. LEER POT \r\n";
 char op2[] = "2. ENVIAR ASCII \r\n";
-char serial[6] = {0x0D, 0x0A, 0x40, 0x0D, 0x0A, 0x00};
-uint8_t indice = 0, menuFlag = 1, POT_valor = 0;
+char serial[4] = {0x40, 0x0D, 0x0A, 0x00};
+uint8_t indice = 0, menuFlag = 1, POT_valor = 0, ascii = 0;
 uint8_t op1Flag = 0, op2Flag = 0, enviarFlag = 0;
 
 
@@ -2675,33 +2676,20 @@ void __attribute__((picinterrupt(("")))) isr (void){
     }
 
     else if(PIR1bits.RCIF){
+        ascii = RCREG;
         switch(RCREG){
         case 49:
-            if (op2Flag){
-                enviarFlag = 1;
-                serial[2] = RCREG;
-            }
-            else{
-                serial[2] = POT_valor;
-                op1Flag = 1;
-            }
+            serial[0] = POT_valor;
+            op1Flag = 1;
             break;
         case 50:
-            if (op2Flag){
-                enviarFlag = 1;
-                serial[2] = RCREG;
-            }
-            else{
-                op2Flag = 1;
-            }
+            op2Flag = 1;
             break;
         default:
             menuFlag = 0;
             op1Flag = 0;
-            if (op2Flag){
+            if (op2Flag)
                 enviarFlag = 1;
-                serial[2] = RCREG;
-            }
         }
     }
     return;
@@ -2711,8 +2699,6 @@ void __attribute__((picinterrupt(("")))) isr (void){
 void main(void){
     setup();
     while(1){
-        if(ADCON0bits.GO == 0)
-            ADCON0bits.GO = 1;
 
         if(menuFlag){
             imp_cadena(op1);
@@ -2726,13 +2712,16 @@ void main(void){
         }
         while(op2Flag){
             if(enviarFlag){
-                PORTB = RCREG;
+                PORTB = ascii;
+                serial[0] = ascii;
                 imp_cadena(serial);
                 enviarFlag = 0;
                 op2Flag = 0;
                 menuFlag = 1;
             }
         }
+        if(ADCON0bits.GO == 0)
+            ADCON0bits.GO = 1;
     }
     return;
 }
